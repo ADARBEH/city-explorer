@@ -25,4 +25,4 @@
 
 ### Finish time: 8:30
 
-### Actual time needed to complete: 6 hours
+### Actual time needed to complete: 6 hours.
