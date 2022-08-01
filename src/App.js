@@ -1,25 +1,102 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
+import Formuser from './components/Formuser';
+import React, { Component } from 'react';
+import axios from 'axios';
+import Tableuser from './components/Tableuser';
+import Imguser from './components/Imguser';
+import Modeluser from './components/Modeluser';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+
+
+
+class App extends Component {
+
+
+  constructor(props){
+    super(props);
+    this.state = {
+      citydata : "",
+      display_name : "",
+      latitude : "",
+      longitude : "",
+      erorrmessage : "",
+      erorr : false
+    }
+
+  }
+
+
+
+
+
+
+  
+  onsearch = async (city_name) => {
+
+    try {
+    const datalink = await axios.get(
+    `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_KEY}&q=${city_name}&format=json`)
+  
+    this.setState({
+    citydata : datalink.data[0],
+    error_info : false
+    })
+    } 
+    catch (error) {
+    this.setState({
+    error_info : true,
+    erorrmessage : "reroor here"  
+    })}
+    
+  };
+
+  handleClose = () => {
+    this.setState({
+      error_info : false 
+    })
+  }
+
+
+
+  render(){
+  return(
+  <>
+  <Formuser 
+  onsearch={this.onsearch}  
+  />
+
+  <Tableuser 
+  display_name={this.state.citydata.display_name} 
+  latitude={this.state.citydata.lat}
+  longitude={this.state.citydata.lon}
+  />
+  {this.state.citydata &&
+  <Imguser
+  latitude={this.state.citydata.lat}
+  longitude={this.state.citydata.lon}
+  />
+  }
+  {this.state.error_info && 
+
+  <Modeluser 
+  error_info={this.state.error_info}
+  handleClose={this.handleClose}
+  />
+
+
+
+  }
+  
+
+  </>
+  )
+ }
+
 }
 
 export default App;
