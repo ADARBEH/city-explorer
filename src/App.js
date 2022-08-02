@@ -25,7 +25,8 @@ class App extends Component {
       latitude : "",
       longitude : "",
       erorrmessage : "",
-      erorr : false
+      erorr : false,
+      weathardata :[],
     }
 
   }
@@ -41,20 +42,30 @@ class App extends Component {
     try {
     const datalink = await axios.get(
     `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_KEY}&q=${city_name}&format=json`)
-  
+    
+    const weathar = await axios.get(`http://localhost:3005/weather?searchQuery=`+ city_name)
+    // console.log(weathar)
+      
     this.setState({
     citydata : datalink.data[0],
-    error_info : false
+    error_info : false,
+    weathardata:weathar.data,
     })
+
     } 
     catch (error) {
     this.setState({
     error_info : true,
     erorrmessage : "reroor here"  
     })}
+
+
     
   };
 
+
+
+  
   handleClose = () => {
     this.setState({
       error_info : false 
@@ -66,15 +77,19 @@ class App extends Component {
   render(){
   return(
   <>
+
   <Formuser 
   onsearch={this.onsearch}  
   />
 
-  <Tableuser 
+   {this.state.weathardata &&
+   <Tableuser
   display_name={this.state.citydata.display_name} 
   latitude={this.state.citydata.lat}
   longitude={this.state.citydata.lon}
+  weathardata={this.state.weathardata}
   />
+  }
   {this.state.citydata &&
   <Imguser
   latitude={this.state.citydata.lat}
