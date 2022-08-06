@@ -12,16 +12,16 @@ render(){
     return(
       <>
 {/* {console.log(this.props.weathardata)} */}
-    <Table striped>
+    <Table striped >
       <thead>
-        <tr>
+        <tr className="tabel">
           <th>City Name</th>
-          <th>latitude</th>
-          <th>longitude</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr className="tabel-all" >
           <td>{this.props.display_name}</td>
           <td>{this.props.latitude}</td>
           <td>{this.props.longitude}</td>
