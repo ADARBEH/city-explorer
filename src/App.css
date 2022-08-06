@@ -36,8 +36,4 @@
     transform: rotate(360deg);
   }
 }
-.Cardmovie-card{
-  display: table-column-group;
-  align-items: center;
-  justify-content: center;
-}
+

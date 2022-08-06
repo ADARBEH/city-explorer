@@ -19,15 +19,16 @@ class SearchForm extends React.Component {
 
     render() {
         return (
-            <Form onSubmit={this.onSubmit}>
+            <div className="div-form">
+            <Form onSubmit={this.onSubmit} >
                 <Form.Group className="mb-3" controlId="cityName">
-                    <Form.Label>Search City</Form.Label>
-                    <Form.Control type="text" placeholder="Enter city name" />
+                    <Form.Control type="text" placeholder="Enter city name" className="input" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" className="input-btm" >
                     Exlpore!
                 </Button>
             </Form>
+            </div>
         );
     }
 }

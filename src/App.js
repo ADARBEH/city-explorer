@@ -7,8 +7,10 @@ import axios from 'axios';
 import Tableuser from './components/Tableuser';
 import Imguser from './components/Imguser';
 import Modeluser from './components/Modeluser';
-import Carduser from './components/Carduser';
-import Cardmovie from './components/Cardmovie.js';
+import Carduser from './components/WeatherDay';
+import Cardmovie from './components/Movie.js';
+import './Style.css';
+
 
 
 
@@ -29,7 +31,8 @@ class App extends Component {
       erorrmessage : "",
       erorr : false,
       weathardata :[],
-      movie :[]
+      movie :[],
+      showdata : false
     }
 
   }
@@ -68,24 +71,25 @@ class App extends Component {
   };
   
   secondfun = async ( lat, lon) => {
-    const weathar = await axios.get(`http://localhost:3005/weather?lat=${lat}&lon=${lon}`)
-    // console.log(weathar.array.forEach(element => {
-      
-    // });)
-
+    const weathar = await axios.get(`https://server-adarbeh.herokuapp.com/weather?lat=${lat}&lon=${lon}`)
+   
     this.setState({
       weathardata:weathar.data,
+      showdata : true
+
     })
 
     console.log(this.state.weathardata)
   }
 
   therdfun = async ( searchQuery) => {
-    const moviedata = await axios.get(`http://localhost:3005/movies?key=${process.env.REACT_APP_MOVIE_API_KEY}&searchQuery=${searchQuery}`)
+    const moviedata = await axios.get(`https://server-adarbeh.herokuapp.com/movies?key=${process.env.REACT_APP_MOVIE_API_KEY}&searchQuery=${searchQuery}`)
     console.log(moviedata)
 
     this.setState({
       movie:moviedata.data,
+      showdata : true
+
     })
 
   }
@@ -114,6 +118,8 @@ class App extends Component {
   return(
   <>
 
+  <p className="test-nav"  > city searching</p>
+
   <Formuser 
   onsearch={this.onsearch}  
   />
@@ -127,7 +133,7 @@ class App extends Component {
   />
   }
   {this.state.citydata &&
-  <Imguser
+  <Imguser 
   latitude={this.state.citydata.lat}
   longitude={this.state.citydata.lon}
   />
@@ -139,13 +145,20 @@ class App extends Component {
   handleClose={this.handleClose}
   />
   }
+  {this.state.showdata &&
+
   <Carduser 
   weathardata={this.state.weathardata}
   />
+  }
+
+{this.state.showdata &&
+
   <Cardmovie 
   movie={this.state.movie}
   />
-
+}
+  
   </>
   )
  }
